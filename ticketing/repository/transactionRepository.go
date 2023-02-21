@@ -9,7 +9,7 @@ import (
 )
 
 func GetByTransactionId(db *sql.DB, transactionId int) (err error, result structs.TransactionGet) {
-	sqlQuery := `SELECT t.qr_code, t.created_at, c.full_name, c.email, c.phone_number, tic."name" , tic ."date", tic.price, e."name" FROM transaction t 
+	sqlQuery := `SELECT t.id, t.qr_code, t.created_at, c.full_name, c.email, c.phone_number, tic."name" , tic ."date", tic.price, e."name" FROM transaction t 
          		INNER JOIN customer c on c.id = t.customer_id
                 INNER JOIN ticket tic on tic.id = t.ticket_id
                 INNER JOIN "event" e  on tic.event_id  = e.id 

@@ -8,8 +8,8 @@ type Transaction struct {
 	QrCode     string    `json:"qr_code"`
 	CreatedAt  time.Time `json:"created_at""`
 	UpdatedAt  time.Time `json:"updated_at"`
-	TicketId   Ticket    `json:"ticket_id"`
-	CustomerId Customer  `json:"customer_id"`
+	TicketId   int       `json:"ticket_id"`
+	CustomerId int       `json:"customer_id"`
 }
 
 type TransactionRequest struct {

@@ -33,18 +33,18 @@ func CreateTransaction(request structs.TransactionRequest) (structs.Transaction,
 
 func prepareRequestTransaction(request structs.TransactionRequest) (structs.Transaction, []error) {
 	var transaction structs.Transaction
-	request, err, dateTransaction, ticket, cust := validateRequestTransaction(request)
+	request, err, dateTransaction := validateRequestTransaction(request)
 	if err != nil {
 		return transaction, err
 	}
 	transaction.Date = dateTransaction
 	transaction.QrCode = "qrcode" // generate qr code
-	transaction.TicketId = ticket
-	transaction.CustomerId = cust
+	transaction.TicketId = request.TicketId
+	transaction.CustomerId = request.CustomerId
 	return transaction, nil
 }
 
-func validateRequestTransaction(request structs.TransactionRequest) (structs.TransactionRequest, []error, time.Time, structs.Ticket, structs.Customer) {
+func validateRequestTransaction(request structs.TransactionRequest) (structs.TransactionRequest, []error, time.Time) {
 	var dateInt []int
 	var err []error
 	dateRequest := request.Date
@@ -84,7 +84,7 @@ func validateRequestTransaction(request structs.TransactionRequest) (structs.Tra
 	}
 
 	if len(err) > 0 {
-		return request, err, dateTransaction, ticket, cust
+		return request, err, dateTransaction
 	}
-	return request, nil, dateTransaction, ticket, cust
+	return request, nil, dateTransaction
 }
