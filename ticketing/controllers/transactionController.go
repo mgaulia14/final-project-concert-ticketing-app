@@ -21,6 +21,30 @@ func GetTransactionById(c *gin.Context) {
 	})
 }
 
+func GetTransactionByCustomerId(c *gin.Context) {
+	id, _ := strconv.Atoi(c.Param("id"))
+
+	// proses request to service
+	transaction, err := service.GetTransactionByCustomerId(id)
+	service.CheckIsError(c, err)
+
+	// print success
+	c.JSON(http.StatusOK, gin.H{
+		"data": transaction,
+	})
+}
+
+func GetAllTransactions(c *gin.Context) {
+	// proses request to service
+	transaction, err := service.GetAllTransaction()
+	service.CheckIsError(c, err)
+
+	// print success
+	c.JSON(http.StatusOK, gin.H{
+		"data": transaction,
+	})
+}
+
 func CreateTransaction(c *gin.Context) {
 	var request structs.TransactionRequest
 	// bind JSON

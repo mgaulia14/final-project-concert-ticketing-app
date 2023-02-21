@@ -19,6 +19,24 @@ func GetTransactionById(transactionId int) (structs.TransactionGet, error) {
 	return result, nil
 }
 
+func GetTransactionByCustomerId(customerId int) ([]structs.TransactionGet, error) {
+	var result []structs.TransactionGet
+	err, result := repository.GetTransactionsByCustomerId(database.DBConnection, customerId)
+	if err != nil {
+		return result, err
+	}
+	return result, nil
+}
+
+func GetAllTransaction() ([]structs.TransactionGet, error) {
+	var result []structs.TransactionGet
+	err, result := repository.GetAllTransaction(database.DBConnection)
+	if err != nil {
+		return result, err
+	}
+	return result, nil
+}
+
 func CreateTransaction(request structs.TransactionRequest) (structs.Transaction, []error) {
 	transaction, err := prepareRequestTransaction(request)
 	if err != nil {

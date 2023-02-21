@@ -67,7 +67,7 @@ func main() {
 	// Customer Side
 	router.GET("/categories/:id/events", controllers.GetAllCategory)
 	// Back Office
-	router.GET("/bo/categories", controllers.GetAllCategory)
+	router.GET("/categories", controllers.GetAllCategory)
 	router.POST("/bo/categories", controllers.CreateCategory)
 	router.PUT("/bo/categories/:id", controllers.UpdateCategory)
 	router.DELETE("/bo/categories/:id", controllers.DeleteCategory)
@@ -85,6 +85,7 @@ func main() {
 	router.GET("/customer/:id", controllers.GetCustomerById)
 	router.POST("/customer", controllers.CreateCustomer)
 	router.PUT("/customer/:id", controllers.UpdateCustomer)
+	router.GET("/customer/:id/transactions", controllers.GetTransactionByCustomerId)
 
 	// Wallet (Customer side)
 	router.GET("/wallet/:id", controllers.GetWalletInfo)
@@ -92,13 +93,11 @@ func main() {
 
 	// Transaction - CR
 	// Customer side
-	router.GET("/transaction/:id", controllers.GetTransactionById)
-	router.POST("/transaction", controllers.CreateTransaction)
-	// get trans by cust id
-	// get trans by date
+	router.GET("/transactions/:id", controllers.GetTransactionById)
+	router.POST("/transactions", controllers.CreateTransaction)
 
 	// Back Office
-	// get all trans
+	router.GET("/bo/transactions", controllers.GetAllTransactions)
 
 	err := router.Run("localhost:8080")
 	if err != nil {
