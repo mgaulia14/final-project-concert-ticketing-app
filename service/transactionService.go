@@ -3,6 +3,7 @@ package service
 import (
 	"errors"
 	"final-project-ticketing-api/database"
+	"final-project-ticketing-api/dto"
 	"final-project-ticketing-api/repository"
 	"final-project-ticketing-api/structs"
 	"github.com/skip2/go-qrcode"
@@ -13,8 +14,8 @@ import (
 	"time"
 )
 
-func GetTransactionById(transactionId int) (structs.TransactionGet, error) {
-	var result structs.TransactionGet
+func GetTransactionById(transactionId int) (dto.TransactionGet, error) {
+	var result dto.TransactionGet
 	err, result := repository.GetByTransactionId(database.DBConnection, transactionId)
 	if err != nil {
 		return result, err
@@ -22,8 +23,8 @@ func GetTransactionById(transactionId int) (structs.TransactionGet, error) {
 	return result, nil
 }
 
-func GetTransactionByCustomerId(customerId int) ([]structs.TransactionGet, error) {
-	var result []structs.TransactionGet
+func GetTransactionByCustomerId(customerId int) ([]dto.TransactionGet, error) {
+	var result []dto.TransactionGet
 	err, result := repository.GetTransactionsByCustomerId(database.DBConnection, customerId)
 	if err != nil {
 		return result, err
@@ -31,8 +32,8 @@ func GetTransactionByCustomerId(customerId int) ([]structs.TransactionGet, error
 	return result, nil
 }
 
-func GetAllTransaction() ([]structs.TransactionGet, error) {
-	var result []structs.TransactionGet
+func GetAllTransaction() ([]dto.TransactionGet, error) {
+	var result []dto.TransactionGet
 	err, result := repository.GetAllTransaction(database.DBConnection)
 	if err != nil {
 		return result, err

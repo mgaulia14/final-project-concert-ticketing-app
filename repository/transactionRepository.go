@@ -3,12 +3,13 @@ package repository
 import (
 	"database/sql"
 	"errors"
+	"final-project-ticketing-api/dto"
 	"final-project-ticketing-api/structs"
 	"strconv"
 	"time"
 )
 
-func GetAllTransaction(db *sql.DB) (err error, results []structs.TransactionGet) {
+func GetAllTransaction(db *sql.DB) (err error, results []dto.TransactionGet) {
 	sqlQuery := `SELECT t.id, t.qr_code, t.created_at, c.id, c.full_name, c.email, c.phone_number, tic.id, tic."name" , tic ."date", tic.price, e.id, e."name" FROM transaction t 
          		INNER JOIN customer c on c.id = t.customer_id
                 INNER JOIN ticket tic on tic.id = t.ticket_id
@@ -19,7 +20,7 @@ func GetAllTransaction(db *sql.DB) (err error, results []structs.TransactionGet)
 	}
 	defer rows.Close()
 	for rows.Next() {
-		var transaction = structs.TransactionGet{}
+		var transaction = dto.TransactionGet{}
 		err = rows.Scan(
 			&transaction.ID,
 			&transaction.QrCode,
@@ -43,13 +44,13 @@ func GetAllTransaction(db *sql.DB) (err error, results []structs.TransactionGet)
 	return
 }
 
-func GetByTransactionId(db *sql.DB, transactionId int) (err error, result structs.TransactionGet) {
+func GetByTransactionId(db *sql.DB, transactionId int) (err error, result dto.TransactionGet) {
 	sqlQuery := `SELECT t.id, t.qr_code, t.created_at, c.id, c.full_name, c.email, c.phone_number, tic.id, tic."name" , tic ."date", tic.price, e.id, e."name" FROM transaction t 
          		INNER JOIN customer c on c.id = t.customer_id
                 INNER JOIN ticket tic on tic.id = t.ticket_id
                 INNER JOIN "event" e  on tic.event_id  = e.id 
 				WHERE t.id = $1`
-	var transaction = structs.TransactionGet{}
+	var transaction = dto.TransactionGet{}
 	rows, err := db.Query(sqlQuery, transactionId)
 	if err != nil {
 		panic(err)
@@ -81,13 +82,13 @@ func GetByTransactionId(db *sql.DB, transactionId int) (err error, result struct
 	return err, transaction
 }
 
-func GetTransactionsByCustomerId(db *sql.DB, customerId int) (err error, results []structs.TransactionGet) {
+func GetTransactionsByCustomerId(db *sql.DB, customerId int) (err error, results []dto.TransactionGet) {
 	sqlQuery := `SELECT t.id, t.qr_code, t.created_at, c.id, c.full_name, c.email, c.phone_number, tic.id, tic."name" , tic ."date", tic.price, e.id, e."name" FROM transaction t 
          		INNER JOIN customer c on c.id = t.customer_id
                 INNER JOIN ticket tic on tic.id = t.ticket_id
                 INNER JOIN "event" e  on tic.event_id  = e.id 
 				WHERE t.customer_id = $1`
-	var transaction = structs.TransactionGet{}
+	var transaction = dto.TransactionGet{}
 	rows, err := db.Query(sqlQuery, customerId)
 	if err != nil {
 		panic(err)

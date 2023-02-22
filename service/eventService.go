@@ -3,14 +3,15 @@ package service
 import (
 	"errors"
 	"final-project-ticketing-api/database"
+	"final-project-ticketing-api/dto"
 	"final-project-ticketing-api/repository"
 	"final-project-ticketing-api/structs"
 	"regexp"
 	"time"
 )
 
-func GetAllEventsByEventId(id int) ([]structs.TicketGet, error) {
-	var result []structs.TicketGet
+func GetAllEventsByEventId(id int) ([]dto.TicketGet, error) {
+	var result []dto.TicketGet
 	err, result := repository.GetAllTicketByEventId(database.DBConnection, id)
 	if err != nil {
 		return result, err
@@ -18,8 +19,8 @@ func GetAllEventsByEventId(id int) ([]structs.TicketGet, error) {
 	return result, nil
 }
 
-func GetAllEvents() ([]structs.EventGet, error) {
-	var result []structs.EventGet
+func GetAllEvents() ([]dto.EventGet, error) {
+	var result []dto.EventGet
 	err, result := repository.GetAllEvent(database.DBConnection)
 	if err != nil {
 		return result, err
@@ -92,7 +93,7 @@ func validateRequestEvent(request structs.EventRequest) (structs.EventRequest, [
 	var endInt []int
 	var err []error
 	startDate := request.StartDate
-	endDate := request.StartDate
+	endDate := request.EndDate
 	regex, _ := regexp.Compile(formatDate)
 	if !regex.MatchString(startDate) {
 		err = append(err, errors.New("parameter 'start_date' must be in format yyyy-MM-dd"))

@@ -38,7 +38,6 @@ func CreateEvent(c *gin.Context) {
 	service.CheckIsError(c, err)
 
 	// proses request to service
-
 	event, errors := service.CreateEvent(request)
 	service.CheckIsErrors(c, errors)
 

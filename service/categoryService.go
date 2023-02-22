@@ -2,6 +2,7 @@ package service
 
 import (
 	"final-project-ticketing-api/database"
+	"final-project-ticketing-api/dto"
 	"final-project-ticketing-api/repository"
 	"final-project-ticketing-api/structs"
 )
@@ -15,8 +16,8 @@ func GetAllCategory() ([]structs.Category, error) {
 	return result, nil
 }
 
-func GetAllEventsByCategory(id int) ([]structs.EventGet, error) {
-	var result []structs.EventGet
+func GetAllEventsByCategory(id int) ([]dto.EventGet, error) {
+	var result []dto.EventGet
 	err, result := repository.GetAllEventByCategoryId(database.DBConnection, id)
 	if err != nil {
 		return result, err

@@ -3,6 +3,7 @@ package repository
 import (
 	"database/sql"
 	"errors"
+	"final-project-ticketing-api/dto"
 	"final-project-ticketing-api/structs"
 	"strconv"
 	"time"
@@ -31,7 +32,7 @@ func GetAllCategory(db *sql.DB) (err error, results []structs.Category) {
 	return
 }
 
-func GetAllEventByCategoryId(db *sql.DB, id int) (err error, results []structs.EventGet) {
+func GetAllEventByCategoryId(db *sql.DB, id int) (err error, results []dto.EventGet) {
 	sqlQuery := `SELECT e.id, e.name, e.description, e.start_date, e.end_date, e.category_id, c.name 
 				FROM event e 
 				INNER JOIN category c on c.id = e.category_id
@@ -42,7 +43,7 @@ func GetAllEventByCategoryId(db *sql.DB, id int) (err error, results []structs.E
 	}
 	defer rows.Close()
 	for rows.Next() {
-		var event = structs.EventGet{}
+		var event = dto.EventGet{}
 		err = rows.Scan(
 			&event.ID,
 			&event.Name,

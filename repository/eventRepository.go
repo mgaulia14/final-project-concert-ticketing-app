@@ -3,12 +3,13 @@ package repository
 import (
 	"database/sql"
 	"errors"
+	"final-project-ticketing-api/dto"
 	"final-project-ticketing-api/structs"
 	"strconv"
 	"time"
 )
 
-func GetAllEvent(db *sql.DB) (err error, results []structs.EventGet) {
+func GetAllEvent(db *sql.DB) (err error, results []dto.EventGet) {
 	sqlQuery := `SELECT e.id, e.name, e.description, e.start_date, e.end_date, e.category_id, c.name 
 				FROM event e 
 				INNER JOIN category c on c.id = e.category_id`
@@ -18,7 +19,7 @@ func GetAllEvent(db *sql.DB) (err error, results []structs.EventGet) {
 	}
 	defer rows.Close()
 	for rows.Next() {
-		var event = structs.EventGet{}
+		var event = dto.EventGet{}
 		err = rows.Scan(
 			&event.ID,
 			&event.Name,
@@ -36,12 +37,12 @@ func GetAllEvent(db *sql.DB) (err error, results []structs.EventGet) {
 	return
 }
 
-func GetEventById(db *sql.DB, id int) (err error, result structs.EventGet) {
+func GetEventById(db *sql.DB, id int) (err error, result dto.EventGet) {
 	sqlQuery := `SELECT e.id, e.name, e.description, e.start_date, e.end_date, e.category_id, c.name 
 				FROM event e 
 				INNER JOIN category c on c.id = e.category_id
 				WHERE e.id = $1`
-	var event = structs.EventGet{}
+	var event = dto.EventGet{}
 	rows, _ := db.Query(sqlQuery, id)
 
 	if !rows.Next() {
@@ -130,7 +131,7 @@ func DeleteEvent(db *sql.DB, eventId int) (err error) {
 	return errs.Err()
 }
 
-func GetAllTicketByEventId(db *sql.DB, id int) (err error, results []structs.TicketGet) {
+func GetAllTicketByEventId(db *sql.DB, id int) (err error, results []dto.TicketGet) {
 	sqlQuery := `SELECT ticket.id, ticket.name, ticket.date, ticket.quota, ticket.price, ticket.created_at, ticket.updated_at, event.id, event.name
 				FROM ticket
 				INNER JOIN event
@@ -142,7 +143,7 @@ func GetAllTicketByEventId(db *sql.DB, id int) (err error, results []structs.Tic
 	}
 	defer rows.Close()
 	for rows.Next() {
-		var ticket = structs.TicketGet{}
+		var ticket = dto.TicketGet{}
 		err = rows.Scan(
 			&ticket.ID,
 			&ticket.Name,
