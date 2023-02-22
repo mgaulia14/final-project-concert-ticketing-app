@@ -727,6 +727,28 @@ GET /categories/
   }
 }
 ```
+#### 3. Get All Customer
+```
+  GET /bo/customer
+```
+##### Contoh Response Sukses
+```json
+{
+  "data": {
+    "id": 1,
+    "full_name": "Mega Aulia R",
+    "birth_date": "1997-01-14T00:00:00Z",
+    "address": "Griya Praja Mukti",
+    "phone_number": "087839221567",
+    "email": "mega@email.com",
+    "password": "$2a$14$kX77sehmcIUGQUIfU0o3LeSPIx8EcRapTjW.OLFVaYlg2/l8RkctG",
+    "created_at": "2023-02-22T04:37:12.368301Z",
+    "updated_at": "2023-02-22T04:37:12.368301Z",
+    "is_admin": true,
+    "Token": ""
+  }
+}
+```
 
 
 ### TRANSACTION

@@ -13,7 +13,7 @@ type Customer struct {
 	CreatedAt   time.Time `json:"created_at"`
 	UpdatedAt   time.Time `json:"updated_at"`
 	IsAdmin     bool      `json:"is_admin"`
-	Token       string
+	Token       string    `json:"token"`
 }
 
 type CustomerRequest struct {
