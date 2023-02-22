@@ -60,14 +60,13 @@ func CreateTransaction(request structs.TransactionRequest) (structs.Transaction,
 
 func prepareRequestTransaction(request structs.TransactionRequest) (structs.Transaction, []error, structs.Ticket) {
 	var transaction structs.Transaction
-	request, err, dateTransaction, ticket := validateRequestTransaction(request)
+	request, err, dateTransaction, ticket, cust := validateRequestTransaction(request)
 	if err != nil {
 		return transaction, err, ticket
 	}
-	qrCode := GenerateUniqueCode(6)
 	// generate qr code image
-	qrCode = qrCode + transaction.Date.String()
-	err1 := qrcode.WriteFile(qrCode, qrcode.Medium, 256, qrCode+".png")
+	qrCode := GenerateUniqueCode(6)
+	err1 := qrcode.WriteFile("SUCCESS_"+"_"+ticket.Name+"_"+cust.FullName+"_"+qrCode, qrcode.Medium, 256, qrCode+".png")
 	if err1 != nil {
 		err = append(err, err1)
 		return transaction, err, ticket
@@ -92,20 +91,21 @@ func prepareRequestTransaction(request structs.TransactionRequest) (structs.Tran
 	return transaction, nil, ticket
 }
 
-func validateRequestTransaction(request structs.TransactionRequest) (structs.TransactionRequest, []error, time.Time, structs.Ticket) {
+func validateRequestTransaction(request structs.TransactionRequest) (structs.TransactionRequest, []error, time.Time, structs.Ticket, structs.Customer) {
 	var dateInt []int
 	var err []error
 	var dateTransaction time.Time
+	var cust structs.Customer
 	dateRequest := request.Date
 	err1, ticket := repository.GetByTicketId(database.DBConnection, request.TicketId)
 	if err1 != nil {
 		err = append(err, err1)
-		return request, err, dateTransaction, ticket
+		return request, err, dateTransaction, ticket, cust
 	}
-	err1, cust := repository.GetByCustomerId(database.DBConnection, request.CustomerId)
+	err1, cust = repository.GetByCustomerId(database.DBConnection, request.CustomerId)
 	if err1 != nil {
 		err = append(err, err1)
-		return request, err, dateTransaction, ticket
+		return request, err, dateTransaction, ticket, cust
 	}
 	regex, _ := regexp.Compile(formatDate)
 	if !regex.MatchString(dateRequest) {
@@ -135,9 +135,9 @@ func validateRequestTransaction(request structs.TransactionRequest) (structs.Tra
 	}
 
 	if len(err) > 0 {
-		return request, err, dateTransaction, ticket
+		return request, err, dateTransaction, ticket, cust
 	}
-	return request, nil, dateTransaction, ticket
+	return request, nil, dateTransaction, ticket, cust
 }
 
 func GenerateUniqueCode(n int) string {
