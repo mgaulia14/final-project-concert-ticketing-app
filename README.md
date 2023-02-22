@@ -37,7 +37,7 @@ Download terlebih dahulu library-library yang akan digunakan:
 ```
 https://final-project-ticketing-app-production.up.railway.app
 ```
-#### REGISTRATION
+### REGISTRATION
 ```
   POST /registration
 ```
@@ -121,7 +121,7 @@ Saat melakukan registration, customer akan mengisi field-field seperti dibawah i
 ```
 
 
-#### LOGIN
+### LOGIN
 ```
   POST /login
 ```
@@ -167,7 +167,7 @@ Saat melakukan registration, customer akan mengisi field-field seperti dibawah i
 }
 ```
 
-#### WALLET
+### WALLET
 ##### Parameter
 | Parameter      | Tipe Data  | Deskripsi                                   |
 |----------------|------------|---------------------------------------------|
@@ -217,7 +217,7 @@ Saat melakukan registration, customer akan mengisi field-field seperti dibawah i
 }
 ```
 
-#### CATEGORY
+### CATEGORY
 ##### Parameter
 | Parameter     | Tipe Data | Deskripsi                                                            |
 |---------------|-----------|----------------------------------------------------------------------|
@@ -303,7 +303,7 @@ Saat melakukan registration, customer akan mengisi field-field seperti dibawah i
 ```
 
 
-#### EVENT
+### EVENT
 ##### Parameter
 | Parameter     | Tipe Data   | Deskripsi                                                |
 |---------------|-------------|----------------------------------------------------------|
@@ -467,7 +467,7 @@ GET /categories/
 ```
 
 
-#### TICKET
+### TICKET
 ##### Parameter
 | Parameter | Tipe Data | Deskripsi                                                                                                                 |
 |-----------|-----------|---------------------------------------------------------------------------------------------------------------------------|
@@ -658,7 +658,7 @@ GET /categories/
 ```
 
 
-#### CUSTOMER
+### CUSTOMER
 ##### Parameter
 | Parameter    | Tipe Data |  Deskripsi                                                                               |
 |--------------|-----------|------------------------------------------------------------------------------------------|
@@ -729,7 +729,7 @@ GET /categories/
 ```
 
 
-#### TRANSACTION
+### TRANSACTION
 ##### Parameter
 | Parameter   | Tipe Data | Deskripsi                                                                                      |
 |-------------|-----------|------------------------------------------------------------------------------------------------|
