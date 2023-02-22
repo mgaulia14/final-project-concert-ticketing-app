@@ -112,7 +112,7 @@ func validateRequestEvent(request structs.EventRequest) (structs.EventRequest, [
 		err = append(err, errors.New("parameter 'end_date' must be in format yyyy-MM-dd"))
 	}
 	if !startTime.After(time.Now()) {
-		err = append(err, errors.New("parameter 'start_date' cannot be yesterday"))
+		err = append(err, errors.New("parameter 'start_date' cannot less than today"))
 	}
 	if endTime.Before(startTime) {
 		err = append(err, errors.New("parameter 'end_date' must be greater than 'start_date'"))

@@ -1,5 +1,7 @@
 # final-project-ticketing-app
-Ticketing app merupakan kumpulan API yang disusun dengan bahasa pemrograman Go yang bertujuan untuk memudahkan pembelian tiket event secara online. Customer dapat melihat event apa saja yang akan berlangsung, melakukan transaksi pembelian tiket, melakukan top up saldo wallet, dan mendapatkan tiket yang disertai dengan qr code. Namun, sebelum customer dapat melakukan transaksi pembelian tiket, customer harus melakukan registrasi terlebih dahulu dengan memasukkan data diri seperti: nama lengkap, alamat, tanggal lahir, email, dsb. Selanjutnya ketika registrasi telah berhasil, customer dapat memulai pengalaman bertransaksi dengan melakukan login ke aplikasi dan memasukkan email dan password yang sudah terdaftar. 
+Ticketing app merupakan kumpulan API yang disusun dengan bahasa pemrograman Go yang bertujuan untuk memudahkan pembelian tiket event secara online. Customer dapat melihat event apa saja yang akan berlangsung berdasarkan category, melakukan transaksi pembelian tiket, melakukan top up saldo wallet, dan mendapatkan tiket yang disertai dengan qr code. 
+
+Namun, sebelum customer dapat melakukan transaksi pembelian tiket, customer harus melakukan registrasi terlebih dahulu dengan memasukkan data diri seperti: nama lengkap, alamat, email, dll. Setelah berhasil, customer dapat memulai pengalaman bertransaksi dan melakukan login ke aplikasi dengan memasukkan email dan password yang sudah terdaftar. 
 
 ### Terdapat 2 jenis API :
 | Path               | Deskripsi                                                                               |
@@ -108,6 +110,15 @@ Saat melakukan registration, customer akan mengisi field-field seperti dibawah i
   "error_status": "Invalid parameter"
 }
 ```
+##### Contoh Response Gagal - Salah format phone_number
+```json
+{
+  "error_message": [
+    "prefix 'phone_number' must be '08' or '62' or '+62' and max 13 digit"
+  ],
+  "error_status": "Invalid parameter"
+}
+```
 
 
 #### LOGIN
@@ -146,7 +157,15 @@ Saat melakukan registration, customer akan mengisi field-field seperti dibawah i
   "error": "forbidden access to API"
 }
 ```
-
+##### Contoh Response Gagal - Salah password
+```json
+{
+  "error_message": [
+    "incorrect password"
+  ],
+  "error_status": "Invalid parameter"
+}
+```
 
 #### WALLET
 ##### Parameter
@@ -324,6 +343,40 @@ Saat melakukan registration, customer akan mengisi field-field seperti dibawah i
   "message": "Success insert event"
 }
 ```
+##### Contoh Response Gagal
+```json
+{
+  "error_message": [
+    "parameter 'end_date' must be greater than 'start_date'"
+  ],
+  "error_status": "Invalid parameter"
+}
+```
+```json
+{
+  "error_message": [
+    "parameter 'start_date' must be in format yyyy-MM-dd"
+  ],
+  "error_status": "Invalid parameter"
+}
+```
+```json
+{
+  "error_message": [
+    "parameter 'end_date' must be in format yyyy-MM-dd"
+  ],
+  "error_status": "Invalid parameter"
+}
+```
+```json
+{
+  "error_message": [
+    "parameter 'start_date' cannot less than today"
+  ],
+  "error_status": "Invalid parameter"
+}
+```
+
 #### 2. Update
 ```
   PUT /bo/event/:id
@@ -459,6 +512,22 @@ GET /categories/
 {
   "error_message": [
     "parameter 'date' must between 2023-05-05 00:00:00 +0000 +0000 or 2023-05-08 00:00:00 +0000 +0000"
+  ],
+  "error_status": "Invalid parameter"
+}
+```
+```json
+{
+  "error_message": [
+    "parameter 'date' must be in format yyyy-MM-dd"
+  ],
+  "error_status": "Invalid parameter"
+}
+```
+```json
+{
+  "error_message": [
+    "parameter 'date' cannot less than today"
   ],
   "error_status": "Invalid parameter"
 }
@@ -669,7 +738,7 @@ GET /categories/
 | customer_id | int       | CustomerId, contohnya customer_id = 1, Mega Aulia                                              |
 
 #### 1. Create
-Saat melakukan create transactions, back end akan memvalidasi semua paramater, termasuk ticket_id dan customer_id yang diinput benar terdaftar atau tidak. Pada saat transactin berlangsung, secara otomatis juga memotong quota pada ticket_id terkait. Pengecekan data customer terkait dengan balance yang ada di wallet apakah cukup untuk melakukan transaksi atau tidak. Jika kurang, customer harus melakukan top up terlebih dahulu. Setelah transaction selesai, customer akan mendapat balikan dari API, salah satunya adalah QR Code yang nantikan sebagai ticket saat mendatangi event. QR Code disimpan pada CDN, sehingga dapat diakses oleh customer. Pembuatan QR Code dilakukan dengan cara generate QR code, kemudian file hasil generate disimpan di dalam aplikasi, kemudian diupload ke CDN. Link QR Code yang menjadi response transactions merupakan path penyimpanan file setelah diupload.
+Saat melakukan create transactions, sistem back-end akan memvalidasi semua paramater. Ketika semua validasi sudah lolos, sistem akan melanjutkan mengenerate QR Code dalam bentuk file '.png' dan selanjutnya dilakukan proses upload ke CDN (di sini saya menggunakan cloudinary) agar file QR tersebut dapat diakses oleh customer.
 ```
   POST /transactions
 ```
@@ -710,8 +779,17 @@ Saat melakukan create transactions, back end akan memvalidasi semua paramater, t
 {
   "error_message": [
     "parameter 'date' must be in format yyyy-MM-dd",
-    "parameter 'date' cannot be yesterday",
+    "parameter 'start_date' cannot less than today",
     "insufficient balance"
+  ],
+  "error_status": "Invalid parameter"
+}
+```
+##### Contoh Response Gagal - Quota ticket sudah habis
+```json
+{
+  "error_message": [
+    "ticket is sold out"
   ],
   "error_status": "Invalid parameter"
 }

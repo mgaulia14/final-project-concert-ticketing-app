@@ -100,7 +100,7 @@ func validateRequestTicket(request structs.TicketRequest) (structs.TicketRequest
 		err = append(err, errors.New("parameter 'date' must be in format yyyy-MM-dd"))
 	}
 	if !dateTicket.After(time.Now()) {
-		err = append(err, errors.New("parameter 'date' cannot be yesterday"))
+		err = append(err, errors.New("parameter 'date' cannot less than today"))
 	}
 	if dateTicket.Before(ticket.StartDate) || dateTicket.After(ticket.EndDate) {
 		err = append(err, errors.New("parameter 'date' must between "+ticket.StartDate.String()+" or "+ticket.EndDate.String()))

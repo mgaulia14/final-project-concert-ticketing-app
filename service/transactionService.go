@@ -117,7 +117,7 @@ func validateRequestTransaction(request structs.TransactionRequest) (structs.Tra
 		err = append(err, errors.New("parameter 'date' must be in format yyyy-MM-dd"))
 	}
 	if !dateTransaction.After(time.Now()) {
-		err = append(err, errors.New("parameter 'date' cannot be yesterday"))
+		err = append(err, errors.New("parameter 'date' cannot less than today"))
 	}
 	err1, wallet := repository.GetWalletByCustomerId(database.DBConnection, cust.ID)
 	if err1 != nil {
