@@ -1,19 +1,19 @@
 package controllers
 
 import (
+	"final-project-ticketing-api/service"
+	"final-project-ticketing-api/structs"
 	"github.com/gin-gonic/gin"
 	"net/http"
 	"strconv"
-	service2 "ticketing/service"
-	structs2 "ticketing/structs"
 )
 
 func GetWalletInfo(c *gin.Context) {
 	id, _ := strconv.Atoi(c.Param("id"))
 
 	// proses request to service
-	wallet, err := service2.GetWalletInfo(id)
-	service2.CheckIsError(c, err)
+	wallet, err := service.GetWalletInfo(id)
+	service.CheckIsError(c, err)
 
 	// print success
 	c.JSON(http.StatusOK, gin.H{
@@ -22,14 +22,14 @@ func GetWalletInfo(c *gin.Context) {
 }
 
 func TopUpBalance(c *gin.Context) {
-	var request structs2.WalletTopUp
+	var request structs.WalletTopUp
 	// bind JSON
 	err := c.ShouldBindJSON(&request)
-	service2.CheckIsError(c, err)
+	service.CheckIsError(c, err)
 
 	// proses request to service
-	wallet, errors := service2.TopUpWallet(request)
-	service2.CheckIsErrors(c, errors)
+	wallet, errors := service.TopUpWallet(request)
+	service.CheckIsErrors(c, errors)
 
 	// print success
 	c.JSON(http.StatusOK, gin.H{

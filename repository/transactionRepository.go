@@ -3,8 +3,8 @@ package repository
 import (
 	"database/sql"
 	"errors"
+	"final-project-ticketing-api/structs"
 	"strconv"
-	"ticketing/ticketing/structs"
 	"time"
 )
 

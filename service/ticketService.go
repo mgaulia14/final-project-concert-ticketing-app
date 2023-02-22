@@ -2,10 +2,10 @@ package service
 
 import (
 	"errors"
+	"final-project-ticketing-api/database"
+	"final-project-ticketing-api/repository"
+	"final-project-ticketing-api/structs"
 	"regexp"
-	"ticketing/ticketing/database"
-	"ticketing/ticketing/repository"
-	"ticketing/ticketing/structs"
 	"time"
 )
 

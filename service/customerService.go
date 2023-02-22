@@ -2,14 +2,14 @@ package service
 
 import (
 	"errors"
+	"final-project-ticketing-api/database"
+	"final-project-ticketing-api/middleware"
+	"final-project-ticketing-api/repository"
+	"final-project-ticketing-api/structs"
 	"golang.org/x/crypto/bcrypt"
 	"math/rand"
 	"net/mail"
 	"regexp"
-	"ticketing/ticketing/database"
-	"ticketing/ticketing/middleware"
-	"ticketing/ticketing/repository"
-	"ticketing/ticketing/structs"
 	"time"
 )
 

@@ -1,4 +1,4 @@
-module ticketing
+module final-project-ticketing-api
 
 go 1.19
 

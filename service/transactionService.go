@@ -2,14 +2,14 @@ package service
 
 import (
 	"errors"
+	"final-project-ticketing-api/database"
+	"final-project-ticketing-api/repository"
+	"final-project-ticketing-api/structs"
 	"github.com/skip2/go-qrcode"
 	"math/rand"
 	"os"
 	"regexp"
 	"strconv"
-	"ticketing/ticketing/database"
-	"ticketing/ticketing/repository"
-	"ticketing/ticketing/structs"
 	"time"
 )
 

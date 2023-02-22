@@ -2,9 +2,9 @@ package service
 
 import (
 	"errors"
-	"ticketing/ticketing/database"
-	"ticketing/ticketing/repository"
-	"ticketing/ticketing/structs"
+	"final-project-ticketing-api/database"
+	"final-project-ticketing-api/repository"
+	"final-project-ticketing-api/structs"
 )
 
 func GetWalletInfo(walletId int) (structs.Wallet, error) {

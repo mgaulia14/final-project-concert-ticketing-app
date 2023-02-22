@@ -2,9 +2,9 @@ package service
 
 import (
 	"context"
+	"final-project-ticketing-api/config"
 	"github.com/cloudinary/cloudinary-go"
 	"github.com/cloudinary/cloudinary-go/api/uploader"
-	"ticketing/ticketing/config"
 	"time"
 )
 

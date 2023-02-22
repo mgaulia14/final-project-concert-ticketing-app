@@ -1,17 +1,17 @@
 package controllers
 
 import (
+	"final-project-ticketing-api/service"
+	"final-project-ticketing-api/structs"
 	"github.com/gin-gonic/gin"
 	"net/http"
 	"strconv"
-	service2 "ticketing/service"
-	structs2 "ticketing/structs"
 )
 
 func GetAllCategory(c *gin.Context) {
 	// proses request to service
-	category, err := service2.GetAllCategory()
-	service2.CheckIsError(c, err)
+	category, err := service.GetAllCategory()
+	service.CheckIsError(c, err)
 
 	// print success
 	c.JSON(http.StatusOK, gin.H{
@@ -22,8 +22,8 @@ func GetAllCategory(c *gin.Context) {
 func GetAllEventByCategory(c *gin.Context) {
 	id, _ := strconv.Atoi(c.Param("id"))
 	// proses request to service
-	category, err := service2.GetAllEventsByCategory(id)
-	service2.CheckIsError(c, err)
+	category, err := service.GetAllEventsByCategory(id)
+	service.CheckIsError(c, err)
 
 	// print success
 	c.JSON(http.StatusOK, gin.H{
@@ -32,14 +32,14 @@ func GetAllEventByCategory(c *gin.Context) {
 }
 
 func CreateCategory(c *gin.Context) {
-	var request structs2.CategoryRequest
+	var request structs.CategoryRequest
 	// bind JSON
 	err := c.ShouldBindJSON(&request)
-	service2.CheckIsError(c, err)
+	service.CheckIsError(c, err)
 
 	// proses request to service
-	cat, err := service2.CreateCategory(request)
-	service2.CheckIsError(c, err)
+	cat, err := service.CreateCategory(request)
+	service.CheckIsError(c, err)
 
 	// print success
 	c.JSON(http.StatusOK, gin.H{
@@ -49,15 +49,15 @@ func CreateCategory(c *gin.Context) {
 }
 
 func UpdateCategory(c *gin.Context) {
-	var request structs2.CategoryRequest
+	var request structs.CategoryRequest
 	id, _ := strconv.Atoi(c.Param("id"))
 	// bind JSON
 	err := c.ShouldBindJSON(&request)
-	service2.CheckIsError(c, err)
+	service.CheckIsError(c, err)
 
 	// proses request to service
-	cat, errs := service2.UpdateCategory(request, id)
-	service2.CheckIsErrors(c, errs)
+	cat, errs := service.UpdateCategory(request, id)
+	service.CheckIsErrors(c, errs)
 
 	// print success
 	c.JSON(http.StatusOK, gin.H{
@@ -70,8 +70,8 @@ func DeleteCategory(c *gin.Context) {
 	id, _ := strconv.Atoi(c.Param("id"))
 
 	// proses request to service
-	errors := service2.DeleteCategory(id)
-	service2.CheckIsError(c, errors)
+	errors := service.DeleteCategory(id)
+	service.CheckIsError(c, errors)
 
 	// print success
 	c.JSON(http.StatusOK, gin.H{

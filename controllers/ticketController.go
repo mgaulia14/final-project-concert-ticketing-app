@@ -1,19 +1,19 @@
 package controllers
 
 import (
+	"final-project-ticketing-api/service"
+	"final-project-ticketing-api/structs"
 	"github.com/gin-gonic/gin"
 	"net/http"
 	"strconv"
-	service2 "ticketing/service"
-	structs2 "ticketing/structs"
 )
 
 func GetTicketById(c *gin.Context) {
 	id, _ := strconv.Atoi(c.Param("id"))
 
 	// proses request to service
-	ticket, err := service2.GetTicketById(id)
-	service2.CheckIsError(c, err)
+	ticket, err := service.GetTicketById(id)
+	service.CheckIsError(c, err)
 
 	// print success
 	c.JSON(http.StatusOK, gin.H{
@@ -22,15 +22,15 @@ func GetTicketById(c *gin.Context) {
 }
 
 func CreateTicket(c *gin.Context) {
-	var request structs2.TicketRequest
+	var request structs.TicketRequest
 	// bind JSON
 	err := c.ShouldBindJSON(&request)
-	service2.CheckIsError(c, err)
+	service.CheckIsError(c, err)
 
 	// proses request to service
 
-	ticket, errors := service2.CreateTicket(request)
-	service2.CheckIsErrors(c, errors)
+	ticket, errors := service.CreateTicket(request)
+	service.CheckIsErrors(c, errors)
 
 	// print success
 	c.JSON(http.StatusOK, gin.H{
@@ -40,15 +40,15 @@ func CreateTicket(c *gin.Context) {
 }
 
 func UpdateTicket(c *gin.Context) {
-	var request structs2.TicketRequest
+	var request structs.TicketRequest
 	id, _ := strconv.Atoi(c.Param("id"))
 	// bind JSON
 	err := c.ShouldBindJSON(&request)
-	service2.CheckIsError(c, err)
+	service.CheckIsError(c, err)
 
 	// proses request to service
-	ticket, errors := service2.UpdateTicket(request, id)
-	service2.CheckIsErrors(c, errors)
+	ticket, errors := service.UpdateTicket(request, id)
+	service.CheckIsErrors(c, errors)
 
 	// print success
 	c.JSON(http.StatusOK, gin.H{
@@ -61,8 +61,8 @@ func DeleteTicket(c *gin.Context) {
 	id, _ := strconv.Atoi(c.Param("id"))
 
 	// proses request to service
-	errors := service2.DeleteTicket(id)
-	service2.CheckIsError(c, errors)
+	errors := service.DeleteTicket(id)
+	service.CheckIsError(c, errors)
 
 	// print success
 	c.JSON(http.StatusOK, gin.H{

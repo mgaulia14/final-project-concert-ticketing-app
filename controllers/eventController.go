@@ -1,17 +1,17 @@
 package controllers
 
 import (
+	"final-project-ticketing-api/service"
+	"final-project-ticketing-api/structs"
 	"github.com/gin-gonic/gin"
 	"net/http"
 	"strconv"
-	service2 "ticketing/service"
-	structs2 "ticketing/structs"
 )
 
 func GetAllEvent(c *gin.Context) {
 	// proses request to service
-	events, err := service2.GetAllEvents()
-	service2.CheckIsError(c, err)
+	events, err := service.GetAllEvents()
+	service.CheckIsError(c, err)
 
 	// print success
 	c.JSON(http.StatusOK, gin.H{
@@ -22,8 +22,8 @@ func GetAllEvent(c *gin.Context) {
 func GetAllTicketByEventId(c *gin.Context) {
 	id, _ := strconv.Atoi(c.Param("id"))
 	// proses request to service
-	tickets, err := service2.GetAllEventsByEventId(id)
-	service2.CheckIsError(c, err)
+	tickets, err := service.GetAllEventsByEventId(id)
+	service.CheckIsError(c, err)
 
 	// print success
 	c.JSON(http.StatusOK, gin.H{
@@ -32,15 +32,15 @@ func GetAllTicketByEventId(c *gin.Context) {
 }
 
 func CreateEvent(c *gin.Context) {
-	var request structs2.EventRequest
+	var request structs.EventRequest
 	// bind JSON
 	err := c.ShouldBindJSON(&request)
-	service2.CheckIsError(c, err)
+	service.CheckIsError(c, err)
 
 	// proses request to service
 
-	event, errors := service2.CreateEvent(request)
-	service2.CheckIsErrors(c, errors)
+	event, errors := service.CreateEvent(request)
+	service.CheckIsErrors(c, errors)
 
 	// print success
 	c.JSON(http.StatusOK, gin.H{
@@ -50,15 +50,15 @@ func CreateEvent(c *gin.Context) {
 }
 
 func UpdateEvent(c *gin.Context) {
-	var request structs2.EventRequest
+	var request structs.EventRequest
 	id, _ := strconv.Atoi(c.Param("id"))
 	// bind JSON
 	err := c.ShouldBindJSON(&request)
-	service2.CheckIsError(c, err)
+	service.CheckIsError(c, err)
 
 	// proses request to service
-	event, errors := service2.UpdateEvent(request, id)
-	service2.CheckIsErrors(c, errors)
+	event, errors := service.UpdateEvent(request, id)
+	service.CheckIsErrors(c, errors)
 
 	// print success
 	c.JSON(http.StatusOK, gin.H{
@@ -71,8 +71,8 @@ func DeleteEvent(c *gin.Context) {
 	id, _ := strconv.Atoi(c.Param("id"))
 
 	// proses request to service
-	errors := service2.DeleteEvent(id)
-	service2.CheckIsError(c, errors)
+	errors := service.DeleteEvent(id)
+	service.CheckIsError(c, errors)
 
 	// print success
 	c.JSON(http.StatusOK, gin.H{
