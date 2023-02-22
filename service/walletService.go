@@ -7,9 +7,9 @@ import (
 	"final-project-ticketing-api/structs"
 )
 
-func GetWalletInfo(walletId int) (structs.Wallet, error) {
+func GetWalletInfoByCustomerId(customerId int) (structs.Wallet, error) {
 	var result structs.Wallet
-	err, result := repository.GetWalletInfo(database.DBConnection, walletId)
+	err, result := repository.GetWalletInfo(database.DBConnection, customerId)
 	if err != nil {
 		return result, err
 	}

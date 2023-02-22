@@ -91,9 +91,9 @@ func main() {
 	router.GET("/customer/:id", middleware.VerifyJWT, controllers.GetCustomerById)
 	router.PUT("/customer/:id", middleware.VerifyJWT, controllers.UpdateCustomer)
 	router.GET("/customer/:id/transactions", middleware.VerifyJWT, controllers.GetTransactionByCustomerId)
+	router.GET("/customer/:id/wallet", middleware.VerifyJWT, controllers.GetWalletInfoByCustId)
 
 	// Wallet (Customer side)
-	router.GET("/wallet/:id", middleware.VerifyJWT, controllers.GetWalletInfo)
 	router.PUT("/wallet/top_up", middleware.VerifyJWT, controllers.TopUpBalance)
 
 	// Transaction - CR

@@ -52,7 +52,7 @@ func CreateCustomer(request structs.CustomerRequest) (structs.Customer, []error)
 func UpdateCustomer(request structs.CustomerRequest, customerId int) (structs.Customer, []error) {
 	var result structs.Customer
 	var err []error
-	err1, cust := repository.GetByCustomerId(database.DBConnection, customerId)
+	err1, _ := repository.GetByCustomerId(database.DBConnection, customerId)
 	if err1 != nil {
 		err = append(err, err1)
 		return result, err
@@ -136,7 +136,7 @@ func validateRequestCustomer(request structs.CustomerRequest) (structs.CustomerR
 		err = append(err, errors.New("parameter 'birth_date' must be in format yyyy-MM-dd"))
 	}
 	if isValidPhoneNumber(request.PhoneNumber) == false {
-		err = append(err, errors.New("prefix 'phone_number' must be '08' or '62' or '+62' and max 13 char"))
+		err = append(err, errors.New("prefix 'phone_number' must be '08' or '62' or '+62' and max 13 digit"))
 	}
 	if isValidEmail(request.Email) == false {
 		err = append(err, errors.New("invalid 'email' format"))

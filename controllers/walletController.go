@@ -8,11 +8,11 @@ import (
 	"strconv"
 )
 
-func GetWalletInfo(c *gin.Context) {
+func GetWalletInfoByCustId(c *gin.Context) {
 	id, _ := strconv.Atoi(c.Param("id"))
 
 	// proses request to service
-	wallet, err := service.GetWalletInfo(id)
+	wallet, err := service.GetWalletInfoByCustomerId(id)
 	service.CheckIsError(c, err)
 
 	// print success

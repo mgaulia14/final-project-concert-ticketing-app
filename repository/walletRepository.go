@@ -8,9 +8,9 @@ import (
 	"time"
 )
 
-func GetWalletInfo(db *sql.DB, walletId int) (err error, result structs.Wallet) {
+func GetWalletInfoByCustomerId(db *sql.DB, walletId int) (err error, result structs.Wallet) {
 	sqlQuery := `SELECT * FROM wallet
-				WHERE wallet.id = $1`
+				WHERE wallet.customer_id = $1`
 	var wallet = structs.Wallet{}
 	rows, err := db.Query(sqlQuery, walletId)
 	if err != nil {
