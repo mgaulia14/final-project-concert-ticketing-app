@@ -9,7 +9,7 @@ import (
 )
 
 func GetAllTransaction(db *sql.DB) (err error, results []structs.TransactionGet) {
-	sqlQuery := `SELECT t.id, t.qr_code, t.created_at, c.full_name, c.email, c.phone_number, tic."name" , tic ."date", tic.price, e."name" FROM transaction t 
+	sqlQuery := `SELECT t.id, t.qr_code, t.created_at, c.id, c.full_name, c.email, c.phone_number, tic.id, tic."name" , tic ."date", tic.price, e.id, e."name" FROM transaction t 
          		INNER JOIN customer c on c.id = t.customer_id
                 INNER JOIN ticket tic on tic.id = t.ticket_id
                 INNER JOIN "event" e  on tic.event_id  = e.id `
@@ -24,12 +24,15 @@ func GetAllTransaction(db *sql.DB) (err error, results []structs.TransactionGet)
 			&transaction.ID,
 			&transaction.QrCode,
 			&transaction.CreatedAt,
+			&transaction.CustomerId,
 			&transaction.CustomerName,
 			&transaction.CustomerEmail,
 			&transaction.CustomerPhoneNumber,
+			&transaction.TicketId,
 			&transaction.TicketName,
 			&transaction.TicketDate,
 			&transaction.Price,
+			&transaction.EventId,
 			&transaction.EventName,
 		)
 		if err != nil {
@@ -41,7 +44,7 @@ func GetAllTransaction(db *sql.DB) (err error, results []structs.TransactionGet)
 }
 
 func GetByTransactionId(db *sql.DB, transactionId int) (err error, result structs.TransactionGet) {
-	sqlQuery := `SELECT t.id, t.qr_code, t.created_at, c.full_name, c.email, c.phone_number, tic."name" , tic ."date", tic.price, e."name" FROM transaction t 
+	sqlQuery := `SELECT t.id, t.qr_code, t.created_at, c.id, c.full_name, c.email, c.phone_number, tic.id, tic."name" , tic ."date", tic.price, e.id, e."name" FROM transaction t 
          		INNER JOIN customer c on c.id = t.customer_id
                 INNER JOIN ticket tic on tic.id = t.ticket_id
                 INNER JOIN "event" e  on tic.event_id  = e.id 
@@ -57,12 +60,15 @@ func GetByTransactionId(db *sql.DB, transactionId int) (err error, result struct
 			&transaction.ID,
 			&transaction.QrCode,
 			&transaction.CreatedAt,
+			&transaction.CustomerId,
 			&transaction.CustomerName,
 			&transaction.CustomerEmail,
 			&transaction.CustomerPhoneNumber,
+			&transaction.TicketId,
 			&transaction.TicketName,
 			&transaction.TicketDate,
 			&transaction.Price,
+			&transaction.EventId,
 			&transaction.EventName,
 		)
 		if err != nil {
@@ -76,7 +82,7 @@ func GetByTransactionId(db *sql.DB, transactionId int) (err error, result struct
 }
 
 func GetTransactionsByCustomerId(db *sql.DB, customerId int) (err error, results []structs.TransactionGet) {
-	sqlQuery := `SELECT t.id, t.qr_code, t.created_at, c.full_name, c.email, c.phone_number, tic."name" , tic ."date", tic.price, e."name" FROM transaction t 
+	sqlQuery := `SELECT t.id, t.qr_code, t.created_at, c.id, c.full_name, c.email, c.phone_number, tic.id, tic."name" , tic ."date", tic.price, e.id, e."name" FROM transaction t 
          		INNER JOIN customer c on c.id = t.customer_id
                 INNER JOIN ticket tic on tic.id = t.ticket_id
                 INNER JOIN "event" e  on tic.event_id  = e.id 
@@ -92,12 +98,15 @@ func GetTransactionsByCustomerId(db *sql.DB, customerId int) (err error, results
 			&transaction.ID,
 			&transaction.QrCode,
 			&transaction.CreatedAt,
+			&transaction.CustomerId,
 			&transaction.CustomerName,
 			&transaction.CustomerEmail,
 			&transaction.CustomerPhoneNumber,
+			&transaction.TicketId,
 			&transaction.TicketName,
 			&transaction.TicketDate,
 			&transaction.Price,
+			&transaction.EventId,
 			&transaction.EventName,
 		)
 		if err != nil {

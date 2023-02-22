@@ -31,6 +31,35 @@ func GetAllCategory(db *sql.DB) (err error, results []structs.Category) {
 	return
 }
 
+func GetAllEventByCategoryId(db *sql.DB, id int) (err error, results []structs.EventGet) {
+	sqlQuery := `SELECT e.id, e.name, e.description, e.start_date, e.end_date, e.category_id, c.name 
+				FROM event e 
+				INNER JOIN category c on c.id = e.category_id
+         		WHERE e.category_id = $1`
+	rows, err := db.Query(sqlQuery, id)
+	if err != nil {
+		panic(err)
+	}
+	defer rows.Close()
+	for rows.Next() {
+		var event = structs.EventGet{}
+		err = rows.Scan(
+			&event.ID,
+			&event.Name,
+			&event.Description,
+			&event.StartDate,
+			&event.EndDate,
+			&event.CategoryId,
+			&event.CategoryName,
+		)
+		if err != nil {
+			panic(err)
+		}
+		results = append(results, event)
+	}
+	return
+}
+
 func GetByCategoryById(db *sql.DB, catId int) (err error) {
 	sqlQuery := "SELECT * FROM category WHERE id = $1"
 

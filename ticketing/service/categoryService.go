@@ -15,6 +15,15 @@ func GetAllCategory() ([]structs.Category, error) {
 	return result, nil
 }
 
+func GetAllEventsByCategory(id int) ([]structs.EventGet, error) {
+	var result []structs.EventGet
+	err, result := repository.GetAllEventByCategoryId(database.DBConnection, id)
+	if err != nil {
+		return result, err
+	}
+	return result, nil
+}
+
 func CreateCategory(request structs.CategoryRequest) (structs.Category, error) {
 	cat := prepareRequestCategory(request)
 	cat, err := repository.InsertCategory(database.DBConnection, cat)

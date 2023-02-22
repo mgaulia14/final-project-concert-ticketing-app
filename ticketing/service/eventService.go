@@ -18,8 +18,8 @@ func GetAllEventsByEventId(id int) ([]structs.TicketGet, error) {
 	return result, nil
 }
 
-func GetAllEvents() ([]structs.Event, error) {
-	var result []structs.Event
+func GetAllEvents() ([]structs.EventGet, error) {
+	var result []structs.EventGet
 	err, result := repository.GetAllEvent(database.DBConnection)
 	if err != nil {
 		return result, err

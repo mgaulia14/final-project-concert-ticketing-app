@@ -39,6 +39,24 @@ func CreateCustomer(c *gin.Context) {
 	})
 }
 
+func Login(c *gin.Context) {
+	var request structs.CustLogin
+	// bind JSON
+	err := c.ShouldBindJSON(&request)
+	service.CheckIsError(c, err)
+
+	// proses request to service
+
+	customer, errors := service.Login(request)
+	service.CheckIsErrors(c, errors)
+
+	// print success
+	c.JSON(http.StatusOK, gin.H{
+		"message": "Success",
+		"token":   customer.Token,
+	})
+}
+
 func UpdateCustomer(c *gin.Context) {
 	var request structs.CustomerRequest
 	id, _ := strconv.Atoi(c.Param("id"))

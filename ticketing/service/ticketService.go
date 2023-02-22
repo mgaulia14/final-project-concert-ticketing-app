@@ -81,22 +81,26 @@ func prepareRequestTicket(request structs.TicketRequest) (structs.Ticket, []erro
 func validateRequestTicket(request structs.TicketRequest) (structs.TicketRequest, []error, time.Time) {
 	var dateInt []int
 	var err []error
+	var dateTicket time.Time
 	dateRequest := request.Date
+
+	// check is event id exist
+	err1, ticket := repository.GetEventById(database.DBConnection, request.EventId)
+	if err1 != nil {
+		err = append(err, err1)
+		return request, err, dateTicket
+	}
 	regex, _ := regexp.Compile(formatDate)
 	if !regex.MatchString(dateRequest) {
 		err = append(err, errors.New("parameter 'date' must be in format yyyy-MM-dd"))
 		panic(err)
 	}
-	dateTicket, err1 := GetDate(dateRequest, dateInt)
+	dateTicket, err1 = GetDate(dateRequest, dateInt)
 	if err1 != nil {
 		err = append(err, errors.New("parameter 'date' must be in format yyyy-MM-dd"))
 	}
 	if !dateTicket.After(time.Now()) {
 		err = append(err, errors.New("parameter 'date' cannot be yesterday"))
-	}
-	err1, ticket := repository.GetEventById(database.DBConnection, request.EventId)
-	if err1 != nil {
-		err = append(err, err1)
 	}
 	if dateTicket.Before(ticket.StartDate) || dateTicket.After(ticket.EndDate) {
 		err = append(err, errors.New("parameter 'date' must between "+ticket.StartDate.String()+" or "+ticket.EndDate.String()))

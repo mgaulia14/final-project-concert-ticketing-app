@@ -8,24 +8,25 @@ import (
 	"time"
 )
 
-func GetAllEvent(db *sql.DB) (err error, results []structs.Event) {
-	sqlQuery := `SELECT * FROM event`
+func GetAllEvent(db *sql.DB) (err error, results []structs.EventGet) {
+	sqlQuery := `SELECT e.id, e.name, e.description, e.start_date, e.end_date, e.category_id, c.name 
+				FROM event e 
+				INNER JOIN category c on c.id = e.category_id`
 	rows, err := db.Query(sqlQuery)
 	if err != nil {
 		panic(err)
 	}
 	defer rows.Close()
 	for rows.Next() {
-		var event = structs.Event{}
+		var event = structs.EventGet{}
 		err = rows.Scan(
 			&event.ID,
 			&event.Name,
 			&event.Description,
 			&event.StartDate,
 			&event.EndDate,
-			&event.CreatedAt,
-			&event.UpdatedAt,
 			&event.CategoryId,
+			&event.CategoryName,
 		)
 		if err != nil {
 			panic(err)
@@ -35,9 +36,12 @@ func GetAllEvent(db *sql.DB) (err error, results []structs.Event) {
 	return
 }
 
-func GetEventById(db *sql.DB, id int) (err error, result structs.Event) {
-	sqlQuery := "SELECT * FROM event WHERE id = $1"
-	var event = structs.Event{}
+func GetEventById(db *sql.DB, id int) (err error, result structs.EventGet) {
+	sqlQuery := `SELECT e.id, e.name, e.description, e.start_date, e.end_date, e.category_id, c.name 
+				FROM event e 
+				INNER JOIN category c on c.id = e.category_id
+				WHERE e.id = $1`
+	var event = structs.EventGet{}
 	rows, _ := db.Query(sqlQuery, id)
 
 	if !rows.Next() {
@@ -50,9 +54,8 @@ func GetEventById(db *sql.DB, id int) (err error, result structs.Event) {
 			&event.Description,
 			&event.StartDate,
 			&event.EndDate,
-			&event.CreatedAt,
-			&event.UpdatedAt,
 			&event.CategoryId,
+			&event.CategoryName,
 		)
 		if err != nil {
 			panic(err)

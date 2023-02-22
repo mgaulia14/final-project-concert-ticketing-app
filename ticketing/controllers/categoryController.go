@@ -19,6 +19,18 @@ func GetAllCategory(c *gin.Context) {
 	})
 }
 
+func GetAllEventByCategory(c *gin.Context) {
+	id, _ := strconv.Atoi(c.Param("id"))
+	// proses request to service
+	category, err := service.GetAllEventsByCategory(id)
+	service.CheckIsError(c, err)
+
+	// print success
+	c.JSON(http.StatusOK, gin.H{
+		"data": category,
+	})
+}
+
 func CreateCategory(c *gin.Context) {
 	var request structs.CategoryRequest
 	// bind JSON

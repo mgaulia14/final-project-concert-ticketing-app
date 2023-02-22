@@ -28,7 +28,7 @@ func GetByCustomerId(db *sql.DB, customerId int) (err error, result structs.Cust
 			&customer.Password,
 			&customer.CreatedAt,
 			&customer.UpdatedAt,
-			&customer.WalletId)
+			&customer.IsAdmin)
 		if err != nil {
 			panic(err)
 		}
@@ -36,6 +36,37 @@ func GetByCustomerId(db *sql.DB, customerId int) (err error, result structs.Cust
 		return nil, customer
 	}
 	err = errors.New("customer with ID : " + strconv.Itoa(customerId) + " not found")
+	return err, customer
+}
+
+func GetCustomerByEmail(db *sql.DB, email string) (err error, result structs.Customer) {
+	sqlQuery := `SELECT * FROM customer
+				WHERE customer.email = $1`
+	var customer = structs.Customer{}
+	rows, err := db.Query(sqlQuery, email)
+	if err != nil {
+		panic(err)
+	}
+	defer rows.Close()
+	for rows.Next() {
+		err = rows.Scan(
+			&customer.ID,
+			&customer.FullName,
+			&customer.BirthDate,
+			&customer.Address,
+			&customer.Email,
+			&customer.PhoneNumber,
+			&customer.Password,
+			&customer.CreatedAt,
+			&customer.UpdatedAt,
+			&customer.IsAdmin)
+		if err != nil {
+			panic(err)
+		}
+		result = customer
+		return nil, customer
+	}
+	err = errors.New("customer with email : " + email + " not found")
 	return err, customer
 }
 
@@ -50,7 +81,7 @@ func InsertCustomer(db *sql.DB, customer structs.Customer) (structs.Customer, []
                       password,
                       created_at, 
                       updated_at,
-                      wallet_id) 
+                      isadmin) 
 				VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9) 
 				Returning *`
 	err := db.QueryRow(sqlQuery,
@@ -62,7 +93,7 @@ func InsertCustomer(db *sql.DB, customer structs.Customer) (structs.Customer, []
 		customer.Password,
 		time.Now(),
 		time.Now(),
-		customer.WalletId).Scan(
+		customer.IsAdmin).Scan(
 		&customer.ID,
 		&customer.FullName,
 		&customer.BirthDate,
@@ -72,7 +103,8 @@ func InsertCustomer(db *sql.DB, customer structs.Customer) (structs.Customer, []
 		&customer.Password,
 		&customer.CreatedAt,
 		&customer.UpdatedAt,
-		&customer.WalletId)
+		&customer.IsAdmin,
+	)
 	if err != nil {
 		errs = append(errs, err)
 		return customer, errs
@@ -89,9 +121,8 @@ func UpdateCustomer(db *sql.DB, customer structs.Customer) (structs.Customer, []
 				    phone_number = $4,
 				    email = $5,
 				    password = $6,
-				    updated_at = $7,
-				    wallet_id = $8
-				WHERE id = $9`
+				    updated_at = $7
+				WHERE id = $8`
 
 	err := db.QueryRow(sqlQuery,
 		customer.FullName,
@@ -101,8 +132,7 @@ func UpdateCustomer(db *sql.DB, customer structs.Customer) (structs.Customer, []
 		customer.Email,
 		customer.Password,
 		time.Now(),
-		time.Now(),
-		customer.WalletId).Scan(
+		time.Now()).Scan(
 		&customer.ID,
 		&customer.FullName,
 		&customer.BirthDate,
@@ -112,7 +142,7 @@ func UpdateCustomer(db *sql.DB, customer structs.Customer) (structs.Customer, []
 		&customer.Password,
 		&customer.CreatedAt,
 		&customer.UpdatedAt,
-		&customer.WalletId)
+		&customer.IsAdmin)
 	if errs != nil {
 		errs = append(errs, err)
 		return customer, errs

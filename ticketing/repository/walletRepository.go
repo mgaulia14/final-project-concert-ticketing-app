@@ -25,6 +25,7 @@ func GetWalletInfo(db *sql.DB, walletId int) (err error, result structs.Wallet) 
 			&wallet.AccountNumber,
 			&wallet.CreatedAt,
 			&wallet.UpdatedAt,
+			&wallet.CustomerId,
 		)
 		if err != nil {
 			panic(err)
@@ -53,6 +54,7 @@ func GetWalletByAccountNumber(db *sql.DB, accountNumber int) (err error, result 
 			&wallet.AccountNumber,
 			&wallet.CreatedAt,
 			&wallet.UpdatedAt,
+			&wallet.CustomerId,
 		)
 		if err != nil {
 			panic(err)
@@ -64,6 +66,35 @@ func GetWalletByAccountNumber(db *sql.DB, accountNumber int) (err error, result 
 	return err, wallet
 }
 
+func GetWalletByCustomerId(db *sql.DB, customerId int) (err error, result structs.Wallet) {
+	sqlQuery := `SELECT * FROM wallet
+				WHERE wallet.customer_id = $1`
+	var wallet = structs.Wallet{}
+	rows, err := db.Query(sqlQuery, customerId)
+	if err != nil {
+		panic(err)
+	}
+	defer rows.Close()
+	for rows.Next() {
+		err = rows.Scan(
+			&wallet.ID,
+			&wallet.Balance,
+			&wallet.AccountName,
+			&wallet.AccountNumber,
+			&wallet.CreatedAt,
+			&wallet.UpdatedAt,
+			&wallet.CustomerId,
+		)
+		if err != nil {
+			panic(err)
+		}
+		result = wallet
+		return nil, wallet
+	}
+	err = errors.New("wallet with account number : " + strconv.Itoa(customerId) + " not found")
+	return err, wallet
+}
+
 func InsertWallet(db *sql.DB, wallet structs.Wallet) (structs.Wallet, []error) {
 	var errs []error
 	sqlQuery := `INSERT INTO wallet (
@@ -71,21 +102,25 @@ func InsertWallet(db *sql.DB, wallet structs.Wallet) (structs.Wallet, []error) {
                     account_name, 
                     account_number,
                     created_at, 
-                    updated_at) 
-				VALUES ($1, $2, $3, $4, $5) 
+                    updated_at,
+                    customer_id) 
+				VALUES ($1, $2, $3, $4, $5, $6) 
 				Returning *`
 	err := db.QueryRow(sqlQuery,
 		wallet.Balance,
 		wallet.AccountName,
 		wallet.AccountNumber,
 		time.Now(),
-		time.Now()).Scan(
+		time.Now(),
+		wallet.CustomerId).Scan(
 		&wallet.ID,
 		&wallet.Balance,
 		&wallet.AccountName,
 		&wallet.AccountNumber,
 		&wallet.CreatedAt,
-		&wallet.UpdatedAt)
+		&wallet.UpdatedAt,
+		&wallet.CustomerId,
+	)
 	if err != nil {
 		errs = append(errs, err)
 		return wallet, errs
@@ -109,16 +144,11 @@ func TopUpBalance(db *sql.DB, wallet structs.Wallet) (structs.Wallet, []error) {
 		&wallet.AccountName,
 		&wallet.AccountNumber,
 		&wallet.CreatedAt,
-		&wallet.UpdatedAt)
+		&wallet.UpdatedAt,
+		&wallet.CustomerId)
 	if errs != nil {
 		errs = append(errs, err)
 		return wallet, errs
 	}
 	return wallet, nil
-}
-
-func DeleteWallet(db *sql.DB, id int) (err error) {
-	sqlQuery := `DELETE FROM wallet WHERE id = $1`
-	errs := db.QueryRow(sqlQuery, id)
-	return errs.Err()
 }

@@ -9,6 +9,7 @@ type Wallet struct {
 	AccountNumber int       `json:"account_number"`
 	CreatedAt     time.Time `json:"created_at"`
 	UpdatedAt     time.Time `json:"updated_at"`
+	CustomerId    int       `json:"customer_id"`
 }
 
 type WalletTopUp struct {

@@ -12,7 +12,8 @@ type Customer struct {
 	Password    string    `json:"password"`
 	CreatedAt   time.Time `json:"created_at"`
 	UpdatedAt   time.Time `json:"updated_at"`
-	WalletId    int       `json:"wallet_id"`
+	IsAdmin     bool      `json:"is_admin"`
+	Token       string
 }
 
 type CustomerRequest struct {
@@ -22,4 +23,10 @@ type CustomerRequest struct {
 	PhoneNumber string `json:"phone_number"`
 	Email       string `json:"email"`
 	Password    string `json:"password"`
+	IsAdmin     bool   `json:"is_admin"`
+}
+
+type CustLogin struct {
+	Email    string `json:"email"`
+	Password string `json:"password"`
 }

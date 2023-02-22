@@ -17,15 +17,6 @@ CREATE TABLE bank (
     updated_at TIMESTAMP
 );
 
-CREATE TABLE wallet (
-    id SERIAL PRIMARY KEY,
-    balance FLOAT NOT NULL,
-    account_name VARCHAR(256) NOT NULL,
-    account_number VARCHAR(256) NOT NULL,
-    created_at TIMESTAMP,
-    updated_at TIMESTAMP
-);
-
 CREATE TABLE customer (
     id SERIAL PRIMARY KEY,
     full_name VARCHAR(256) NOT NULL,
@@ -36,10 +27,20 @@ CREATE TABLE customer (
     password VARCHAR(256) NOT NULL,
     created_at TIMESTAMP,
     updated_at TIMESTAMP,
-    wallet_id SERIAL NOT NULL,
+    isAdmin bool NOT NULL
+);
 
-    CONSTRAINT FK_customer_wallet FOREIGN KEY(wallet_id)
-        REFERENCES wallet(id)
+CREATE TABLE wallet (
+    id SERIAL PRIMARY KEY,
+    balance FLOAT NOT NULL,
+    account_name VARCHAR(256) NOT NULL,
+    account_number VARCHAR(256) NOT NULL,
+    created_at TIMESTAMP,
+    updated_at TIMESTAMP,
+    customer_id INT,
+
+    CONSTRAINT FK_wallet_customer FOREIGN KEY(customer_id)
+        REFERENCES customer(id)
 );
 
 CREATE TABLE event (
