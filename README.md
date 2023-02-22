@@ -1,1 +1,1 @@
-# final-project-concert-ticketing-app
+# final-project-ticketing-app
