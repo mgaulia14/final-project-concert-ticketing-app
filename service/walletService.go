@@ -9,7 +9,7 @@ import (
 
 func GetWalletInfoByCustomerId(customerId int) (structs.Wallet, error) {
 	var result structs.Wallet
-	err, result := repository.GetWalletInfo(database.DBConnection, customerId)
+	err, result := repository.GetWalletInfoByCustomerId(database.DBConnection, customerId)
 	if err != nil {
 		return result, err
 	}
