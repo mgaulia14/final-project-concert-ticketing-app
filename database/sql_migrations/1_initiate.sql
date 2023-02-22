@@ -8,15 +8,6 @@ CREATE TABLE category (
     updated_at TIMESTAMP
 );
 
-
-CREATE TABLE bank (
-    id SERIAL PRIMARY KEY,
-    name VARCHAR(256) NOT NULL,
-    swift_code VARCHAR(256) NOT NULL,
-    created_at TIMESTAMP,
-    updated_at TIMESTAMP
-);
-
 CREATE TABLE customer (
     id SERIAL PRIMARY KEY,
     full_name VARCHAR(256) NOT NULL,
