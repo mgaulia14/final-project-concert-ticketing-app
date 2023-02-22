@@ -4,16 +4,16 @@ import (
 	"github.com/gin-gonic/gin"
 	"net/http"
 	"strconv"
-	"ticketing/ticketing/service"
-	"ticketing/ticketing/structs"
+	service2 "ticketing/service"
+	structs2 "ticketing/structs"
 )
 
 func GetCustomerById(c *gin.Context) {
 	id, _ := strconv.Atoi(c.Param("id"))
 
 	// proses request to service
-	customer, err := service.GetCustomerById(id)
-	service.CheckIsError(c, err)
+	customer, err := service2.GetCustomerById(id)
+	service2.CheckIsError(c, err)
 
 	// print success
 	c.JSON(http.StatusOK, gin.H{
@@ -22,15 +22,15 @@ func GetCustomerById(c *gin.Context) {
 }
 
 func CreateCustomer(c *gin.Context) {
-	var request structs.CustomerRequest
+	var request structs2.CustomerRequest
 	// bind JSON
 	err := c.ShouldBindJSON(&request)
-	service.CheckIsError(c, err)
+	service2.CheckIsError(c, err)
 
 	// proses request to service
 
-	customer, errors := service.CreateCustomer(request)
-	service.CheckIsErrors(c, errors)
+	customer, errors := service2.CreateCustomer(request)
+	service2.CheckIsErrors(c, errors)
 
 	// print success
 	c.JSON(http.StatusOK, gin.H{
@@ -40,15 +40,15 @@ func CreateCustomer(c *gin.Context) {
 }
 
 func Login(c *gin.Context) {
-	var request structs.CustLogin
+	var request structs2.CustLogin
 	// bind JSON
 	err := c.ShouldBindJSON(&request)
-	service.CheckIsError(c, err)
+	service2.CheckIsError(c, err)
 
 	// proses request to service
 
-	customer, errors := service.Login(request)
-	service.CheckIsErrors(c, errors)
+	customer, errors := service2.Login(request)
+	service2.CheckIsErrors(c, errors)
 
 	// print success
 	c.JSON(http.StatusOK, gin.H{
@@ -58,15 +58,15 @@ func Login(c *gin.Context) {
 }
 
 func UpdateCustomer(c *gin.Context) {
-	var request structs.CustomerRequest
+	var request structs2.CustomerRequest
 	id, _ := strconv.Atoi(c.Param("id"))
 	// bind JSON
 	err := c.ShouldBindJSON(&request)
-	service.CheckIsError(c, err)
+	service2.CheckIsError(c, err)
 
 	// proses request to service
-	customer, errors := service.UpdateCustomer(request, id)
-	service.CheckIsErrors(c, errors)
+	customer, errors := service2.UpdateCustomer(request, id)
+	service2.CheckIsErrors(c, errors)
 
 	// print success
 	c.JSON(http.StatusOK, gin.H{

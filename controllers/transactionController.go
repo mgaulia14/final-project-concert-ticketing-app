@@ -4,16 +4,16 @@ import (
 	"github.com/gin-gonic/gin"
 	"net/http"
 	"strconv"
-	"ticketing/ticketing/service"
-	"ticketing/ticketing/structs"
+	service2 "ticketing/service"
+	structs2 "ticketing/structs"
 )
 
 func GetTransactionById(c *gin.Context) {
 	id, _ := strconv.Atoi(c.Param("id"))
 
 	// proses request to service
-	transaction, err := service.GetTransactionById(id)
-	service.CheckIsError(c, err)
+	transaction, err := service2.GetTransactionById(id)
+	service2.CheckIsError(c, err)
 
 	// print success
 	c.JSON(http.StatusOK, gin.H{
@@ -25,8 +25,8 @@ func GetTransactionByCustomerId(c *gin.Context) {
 	id, _ := strconv.Atoi(c.Param("id"))
 
 	// proses request to service
-	transaction, err := service.GetTransactionByCustomerId(id)
-	service.CheckIsError(c, err)
+	transaction, err := service2.GetTransactionByCustomerId(id)
+	service2.CheckIsError(c, err)
 
 	// print success
 	c.JSON(http.StatusOK, gin.H{
@@ -36,8 +36,8 @@ func GetTransactionByCustomerId(c *gin.Context) {
 
 func GetAllTransactions(c *gin.Context) {
 	// proses request to service
-	transaction, err := service.GetAllTransaction()
-	service.CheckIsError(c, err)
+	transaction, err := service2.GetAllTransaction()
+	service2.CheckIsError(c, err)
 
 	// print success
 	c.JSON(http.StatusOK, gin.H{
@@ -46,14 +46,14 @@ func GetAllTransactions(c *gin.Context) {
 }
 
 func CreateTransaction(c *gin.Context) {
-	var request structs.TransactionRequest
+	var request structs2.TransactionRequest
 	// bind JSON
 	err := c.ShouldBindJSON(&request)
-	service.CheckIsError(c, err)
+	service2.CheckIsError(c, err)
 
 	// proses request to service
-	transaction, errors := service.CreateTransaction(request)
-	service.CheckIsErrors(c, errors)
+	transaction, errors := service2.CreateTransaction(request)
+	service2.CheckIsErrors(c, errors)
 
 	// print success
 	c.JSON(http.StatusOK, gin.H{
