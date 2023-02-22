@@ -8,6 +8,35 @@ import (
 	"time"
 )
 
+func GetAllCustomer(db *sql.DB) (err error, result structs.Customer) {
+	sqlQuery := `SELECT * FROM customer`
+	var customer = structs.Customer{}
+	rows, err := db.Query(sqlQuery)
+	if err != nil {
+		panic(err)
+	}
+	defer rows.Close()
+	for rows.Next() {
+		err = rows.Scan(
+			&customer.ID,
+			&customer.FullName,
+			&customer.BirthDate,
+			&customer.Address,
+			&customer.Email,
+			&customer.PhoneNumber,
+			&customer.Password,
+			&customer.CreatedAt,
+			&customer.UpdatedAt,
+			&customer.IsAdmin)
+		if err != nil {
+			panic(err)
+		}
+		result = customer
+		return nil, customer
+	}
+	return err, customer
+}
+
 func GetByCustomerId(db *sql.DB, customerId int) (err error, result structs.Customer) {
 	sqlQuery := `SELECT * FROM customer
 				WHERE customer.id = $1`

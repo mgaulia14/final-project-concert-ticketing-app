@@ -93,6 +93,9 @@ func main() {
 	router.GET("/customer/:id/transactions", middleware.VerifyJWT, controllers.GetTransactionByCustomerId)
 	router.GET("/customer/:id/wallet", middleware.VerifyJWT, controllers.GetWalletInfoByCustId)
 
+	// Customer (Back Office)
+	router.GET("/customer", middleware.VerifyJWT, middleware.BackOffice, controllers.GetAllCustomer)
+
 	// Wallet (Customer side)
 	router.PUT("/wallet/top_up", middleware.VerifyJWT, controllers.TopUpBalance)
 

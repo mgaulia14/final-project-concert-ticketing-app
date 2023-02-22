@@ -16,6 +16,15 @@ import (
 const nameRegex = `^[A-Za-z]+(?:[ _-][A-Za-z]+)*$`
 const phoneNumberRegex = `^(^\+62|62|^08)(\d{3,4}-?){2}\d{3,4}$`
 
+func GetAllCustomer() (structs.Customer, error) {
+	var result structs.Customer
+	err, result := repository.GetAllCustomer(database.DBConnection)
+	if err != nil {
+		return result, err
+	}
+	return result, nil
+}
+
 func GetCustomerById(customerId int) (structs.Customer, error) {
 	var result structs.Customer
 	err, result := repository.GetByCustomerId(database.DBConnection, customerId)

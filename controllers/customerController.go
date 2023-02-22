@@ -8,6 +8,17 @@ import (
 	"strconv"
 )
 
+func GetAllCustomer(c *gin.Context) {
+	// proses request to service
+	customer, err := service.GetAllCustomer()
+	service.CheckIsError(c, err)
+
+	// print success
+	c.JSON(http.StatusOK, gin.H{
+		"data": customer,
+	})
+}
+
 func GetCustomerById(c *gin.Context) {
 	id, _ := strconv.Atoi(c.Param("id"))
 
