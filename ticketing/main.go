@@ -104,9 +104,6 @@ func main() {
 	// Back Office
 	router.GET("/bo/transactions", middleware.VerifyJWT, middleware.BackOffice, controllers.GetAllTransactions)
 
-	err := router.Run("localhost:8080")
-	if err != nil {
-		return
-	}
+	router.Run(":" + os.Getenv("PORT"))
 
 }
