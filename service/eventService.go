@@ -107,7 +107,7 @@ func validateRequestEvent(request structs.EventRequest) (structs.EventRequest, [
 	if err1 != nil {
 		err = append(err, errors.New("parameter 'start_date' must be in format yyyy-MM-dd"))
 	}
-	endTime, err2 := GetDate(startDate, endInt)
+	endTime, err2 := GetDate(endDate, endInt)
 	if err2 != nil {
 		err = append(err, errors.New("parameter 'end_date' must be in format yyyy-MM-dd"))
 	}
