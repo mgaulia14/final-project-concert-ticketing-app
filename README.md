@@ -205,15 +205,16 @@ Saat melakukan registration, customer akan mengisi field-field seperti dibawah i
 ##### Contoh Response Sukses
 ```json
 {
-  "data": {
-    "id": 1,
-    "balance": 2000000,
-    "account_name": "Mega Aulia R",
-    "account_number": 48498095,
-    "created_at": "2023-02-22T04:37:12.372989Z",
-    "updated_at": "2023-02-22T04:37:12.372989Z",
-    "customer_id": 1
-  }
+    "data": {
+        "id": 1,
+        "balance": 4000000,
+        "account_name": "Mega Aulia R",
+        "account_number": 48498095,
+        "created_at": "2023-02-22T04:37:12.372989Z",
+        "updated_at": "2023-02-22T06:51:00.598452Z",
+        "customer_id": 1
+    },
+    "message": "Success top up wallet for account number: 48498095"
 }
 ```
 
