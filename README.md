@@ -207,7 +207,7 @@ Saat melakukan registration, customer akan mengisi field-field seperti dibawah i
 {
   "data": {
     "id": 1,
-    "balance": 0,
+    "balance": 2000000,
     "account_name": "Mega Aulia R",
     "account_number": 48498095,
     "created_at": "2023-02-22T04:37:12.372989Z",
